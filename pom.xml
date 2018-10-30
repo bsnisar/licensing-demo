@@ -21,7 +21,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>10</java.version>
+        <java.version>1.8</java.version>
         <kotlin.version>1.3.0</kotlin.version>
         <swagger.version>2.9.2</swagger.version>
         <axon.version>4.0</axon.version>
@@ -64,10 +64,6 @@
             <version>${axon.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -251,49 +247,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <!-- This can be run separately with mvn antrun:run@detekt -->
-                        <id>detekt</id>
-                        <phase>verify</phase>
-                        <configuration>
-                            <target name="detekt">
-                                <java taskname="detekt" dir="${basedir}"
-                                      fork="true"
-                                      failonerror="true"
-                                      classname="io.gitlab.arturbosch.detekt.cli.Main"
-                                      classpathref="maven.plugin.classpath">
-                                    <arg value="--input"/>
-                                    <arg value="${basedir}/src/main/kotlin"/>
-                                    <arg value="--filters"/>
-                                    <arg value=".*/target/.*,.*/resources/.*"/>
-                                    <arg value="--output"/>
-                                    <arg value="${basedir}/reports"/>
-                                    <!--<arg value="&#45;&#45;outputname"/>-->
-                                    <!--<arg value="detekt-report"/>-->
-                                    <arg value="--baseline"/>
-                                    <arg value="${basedir}/reports/baseline.xml"/>
-                                    <arg value="--config"/>
-                                    <arg value="${basedir}/src/main/resources/detekt-config.yml"/>
-                                </java>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>io.gitlab.arturbosch.detekt</groupId>
-                        <artifactId>detekt-cli</artifactId>
-                        <version>1.0.0.RC8</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
