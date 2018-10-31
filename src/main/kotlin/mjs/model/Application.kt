@@ -1,7 +1,7 @@
 package mjs.model
 
-import mjs.commands.CreateLicenceCommand
-import mjs.events.LicenceCreatedEvent
+import mjs.commands.CreateApplicationCommand
+import mjs.events.ApplicationCreatedEvent
 import mjs.shared.Logging
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.model.AggregateIdentifier
@@ -13,10 +13,10 @@ import java.time.Instant
 import java.util.UUID
 
 @Aggregate
-class Licence() : Serializable {
+class Application() : Serializable {
 
     companion object {
-        val log = Logging.loggerFor<Licence>()
+        val log = Logging.loggerFor<Application>()
     }
 
     @AggregateIdentifier
@@ -25,14 +25,14 @@ class Licence() : Serializable {
     lateinit var createTimestamp: Instant
 
     @CommandHandler
-    constructor(command: CreateLicenceCommand) : this() {
-        log.info("Handling CreateLicenceCommand {}", command)
-        AggregateLifecycle.apply(LicenceCreatedEvent(command.id, command.type, command.createTimestamp))
+    constructor(command: CreateApplicationCommand) : this() {
+        log.info("Handling CreateApplicationCommand {}", command)
+        AggregateLifecycle.apply(ApplicationCreatedEvent(command.id, command.type, command.createTimestamp))
     }
 
     @EventSourcingHandler
-    fun on(event: LicenceCreatedEvent) {
-        log.info("Handling LicenceCreatedEvent {}", event)
+    fun on(event: ApplicationCreatedEvent) {
+        log.info("Handling ApplicationCreatedEvent {}", event)
         id = event.id
         type = event.type
         createTimestamp = event.createTimestamp

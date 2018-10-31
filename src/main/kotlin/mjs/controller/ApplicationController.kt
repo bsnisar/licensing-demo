@@ -1,8 +1,8 @@
 package mjs.controller
 
-import mjs.commands.CreateLicenceCommand
-import mjs.projection.AllLicencesQuery
-import mjs.projection.AllLicencesResponse
+import mjs.commands.CreateApplicationCommand
+import mjs.projection.AllApplicationsQuery
+import mjs.projection.AllApplicationsResponse
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.queryhandling.QueryGateway
 import org.modelmapper.ModelMapper
@@ -21,8 +21,8 @@ import java.util.concurrent.Future
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/api/licences")
-class LicenceController(
+@RequestMapping("/api/applications")
+class ApplicationController(
     @Autowired val commandGateway: CommandGateway,
     @Autowired val queryGateway: QueryGateway,
     @Autowired val modelMapper: ModelMapper
@@ -30,9 +30,9 @@ class LicenceController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createLicence(@Valid @RequestBody licenceRequest: LicenceRequest): Future<Void> {
+    fun createApplication(@Valid @RequestBody licenceRequest: ApplicationRequest): Future<Void> {
         return commandGateway.send(
-            CreateLicenceCommand(
+            CreateApplicationCommand(
                 licenceRequest.id,
                 licenceRequest.type,
                 licenceRequest.createTimestamp
@@ -41,20 +41,20 @@ class LicenceController(
     }
 
     @GetMapping
-    fun getLicences(): CompletableFuture<List<LicenceResponse>> {
+    fun getApplications(): CompletableFuture<List<ApplicationResponse>> {
         return queryGateway
-            .query(AllLicencesQuery(UUID.randomUUID()), AllLicencesResponse::class.java)
-            .thenApply { it.licences.map { licence -> modelMapper.map(licence, LicenceResponse::class.java) } }
+            .query(AllApplicationsQuery(UUID.randomUUID()), AllApplicationsResponse::class.java)
+            .thenApply { it.applications.map { licence -> modelMapper.map(licence, ApplicationResponse::class.java) } }
     }
 }
 
-data class LicenceRequest(
+data class ApplicationRequest(
     val id: UUID,
     val type: String,
     val createTimestamp: Instant
 )
 
-class LicenceResponse() {
+class ApplicationResponse() {
     lateinit var id: UUID
     lateinit var type: String
     lateinit var createTimestamp: Instant

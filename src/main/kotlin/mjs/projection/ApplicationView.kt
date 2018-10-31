@@ -7,8 +7,8 @@ import javax.persistence.Id
 import javax.persistence.Table
 
 @Entity
-@Table(name = "licences")
-class LicenceView(
+@Table(name = "applications")
+class ApplicationView(
     @Id
     val id: UUID,
     val type: String,
