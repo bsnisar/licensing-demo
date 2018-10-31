@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class AllLicencesQueryHandler(@Autowired val repository: LicenceRepository) {
+class AllLicencesQueryHandler(@Autowired val repository: ILicenceRepository) {
     @QueryHandler
     fun handle(query: AllLicencesQuery) = AllLicencesResponse(repository.findAll())
 }

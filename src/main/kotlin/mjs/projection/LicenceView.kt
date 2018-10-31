@@ -12,5 +12,5 @@ class LicenceView(
     @Id
     val id: UUID,
     val type: String,
-    val createDate: Instant
+    val createTimestamp: Instant
 )

@@ -30,26 +30,32 @@ class LicenceController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createLicence(@Valid @RequestBody licenceDTO: LicenceDTO): Future<Void> {
+    fun createLicence(@Valid @RequestBody licenceRequest: LicenceRequest): Future<Void> {
         return commandGateway.send(
             CreateLicenceCommand(
-                UUID.fromString(licenceDTO.id),
-                licenceDTO.type,
-                licenceDTO.createDate
+                licenceRequest.id,
+                licenceRequest.type,
+                licenceRequest.createTimestamp
             )
         )
     }
 
     @GetMapping
-    fun getLicences(): CompletableFuture<List<LicenceDTO>> {
+    fun getLicences(): CompletableFuture<List<LicenceResponse>> {
         return queryGateway
             .query(AllLicencesQuery(UUID.randomUUID()), AllLicencesResponse::class.java)
-            .thenApply { it.licences.map { licence -> modelMapper.map(licence, LicenceDTO::class.java) } }
+            .thenApply { it.licences.map { licence -> modelMapper.map(licence, LicenceResponse::class.java) } }
     }
 }
 
-data class LicenceDTO(
-    val id: String,
+data class LicenceRequest(
+    val id: UUID,
     val type: String,
-    val createDate: Instant
+    val createTimestamp: Instant
 )
+
+class LicenceResponse() {
+    lateinit var id: UUID
+    lateinit var type: String
+    lateinit var createTimestamp: Instant
+}
