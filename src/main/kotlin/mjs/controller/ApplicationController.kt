@@ -1,5 +1,6 @@
 package mjs.controller
 
+import mjs.commands.AddDocumentCommand
 import mjs.commands.CreateApplicationCommand
 import mjs.projection.AllApplicationsQuery
 import mjs.projection.AllApplicationsResponse
@@ -9,6 +10,7 @@ import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -40,6 +42,19 @@ class ApplicationController(
         )
     }
 
+    @PostMapping("{applicationId}/documents")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun addDocument(@PathVariable applicationId: UUID, @Valid @RequestBody documentRequest: DocumentRequest): Future<Void> {
+        return commandGateway.send(
+            AddDocumentCommand(
+                applicationId,
+                documentRequest.id,
+                documentRequest.type,
+                documentRequest.contents
+            )
+        )
+    }
+
     @GetMapping
     fun getApplications(): CompletableFuture<List<ApplicationResponse>> {
         return queryGateway
@@ -59,3 +74,9 @@ class ApplicationResponse() {
     lateinit var type: String
     lateinit var createTimestamp: Instant
 }
+
+data class DocumentRequest(
+    val id: UUID,
+    val type: String,
+    val contents: String
+)
