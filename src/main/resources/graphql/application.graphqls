@@ -1,18 +1,18 @@
 type Query {}
 
 type Document {
-    id: String!
+    id: ID!
     type: String!
     contents: String!
 }
 
 type Application {
-    id: String!
+    id: ID!
     type: String!
     createTimestamp: String!
     documents: [Document]
 }
 
 extend type Query {
-    getApplicationById(id: String!) : Application
+    getApplicationById(id: ID!) : Application
 }
