@@ -1,0 +1,18 @@
+type Query {}
+
+type Document {
+    id: String!
+    type: String!
+    contents: String!
+}
+
+type Application {
+    id: String!
+    type: String!
+    createTimestamp: String!
+    documents: [Document]
+}
+
+extend type Query {
+    getApplicationById(id: String!) : Application
+}

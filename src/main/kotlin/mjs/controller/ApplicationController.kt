@@ -61,6 +61,13 @@ class ApplicationController(
             .query(AllApplicationsQuery(UUID.randomUUID()), AllApplicationsResponse::class.java)
             .thenApply { it.applications.map { licence -> modelMapper.map(licence, ApplicationResponse::class.java) } }
     }
+
+    @GetMapping("{applicationId}/documents")
+    fun getDocumentsForApplication(@PathVariable applicationId: UUID ): CompletableFuture<List<ApplicationResponse>> {
+        return queryGateway
+            .query(AllApplicationsQuery(UUID.randomUUID()), AllApplicationsResponse::class.java)
+            .thenApply { it.applications.map { licence -> modelMapper.map(licence, ApplicationResponse::class.java) } }
+    }
 }
 
 data class ApplicationRequest(
