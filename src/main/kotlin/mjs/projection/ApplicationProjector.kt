@@ -29,7 +29,7 @@ class ApplicationProjector(@Autowired val applicationRepository: IApplicationRep
         log.info("Handling DocumentAddedEvent {}", event)
         documentRepository.save(DocumentView(
             event.id,
-            event.licenceId,
+            event.applicationId,
             event.type,
             event.contents
         ))

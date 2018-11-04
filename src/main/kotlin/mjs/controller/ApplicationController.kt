@@ -32,12 +32,12 @@ class ApplicationController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createApplication(@Valid @RequestBody licenceRequest: ApplicationRequest): Future<Void> {
+    fun createApplication(@Valid @RequestBody applicationRequest: ApplicationRequest): Future<Void> {
         return commandGateway.send(
             CreateApplicationCommand(
-                licenceRequest.id,
-                licenceRequest.type,
-                licenceRequest.createTimestamp
+                applicationRequest.id,
+                applicationRequest.type,
+                applicationRequest.createTimestamp
             )
         )
     }
@@ -59,14 +59,14 @@ class ApplicationController(
     fun getApplications(): CompletableFuture<List<ApplicationResponse>> {
         return queryGateway
             .query(AllApplicationsQuery(UUID.randomUUID()), AllApplicationsResponse::class.java)
-            .thenApply { it.applications.map { licence -> modelMapper.map(licence, ApplicationResponse::class.java) } }
+            .thenApply { it.applications.map { application -> modelMapper.map(application, ApplicationResponse::class.java) } }
     }
 
     @GetMapping("{applicationId}/documents")
     fun getDocumentsForApplication(@PathVariable applicationId: UUID ): CompletableFuture<List<ApplicationResponse>> {
         return queryGateway
             .query(AllApplicationsQuery(UUID.randomUUID()), AllApplicationsResponse::class.java)
-            .thenApply { it.applications.map { licence -> modelMapper.map(licence, ApplicationResponse::class.java) } }
+            .thenApply { it.applications.map { application -> modelMapper.map(application, ApplicationResponse::class.java) } }
     }
 }
 
