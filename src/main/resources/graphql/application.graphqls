@@ -23,4 +23,5 @@ type Applicant {
 
 extend type Query {
     getApplicationById(id: ID!) : Application
+    applications: [Application]!
 }

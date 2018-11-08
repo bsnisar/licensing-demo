@@ -18,9 +18,22 @@ class QueryResolver(@Autowired val applicationRepository: IApplicationRepository
     fun getApplicationById(id: String): ApplicationView? {
         val applicationId = UUID.fromString(id)
         val application = nullOpt(applicationRepository.findById(applicationId)) ?: return null
-        val documents = documentRepository.findByApplicationId(applicationId)
-        application.documents = documents
-        application.applicant = applicantRepository.findByApplicationId(applicationId)
+        return addApplicant(addDocuments(application))
+    }
+
+    fun applications(): List<ApplicationView> {
+        return applicationRepository.findAll()
+            .map { addDocuments(it) }
+            .map { addApplicant(it) }
+    }
+
+    fun addDocuments(application: ApplicationView): ApplicationView {
+        application.documents = documentRepository.findByApplicationId(application.id)
+        return application
+    }
+
+    fun addApplicant(application: ApplicationView): ApplicationView {
+        application.applicant = applicantRepository.findByApplicationId(application.id)
         return application
     }
 
