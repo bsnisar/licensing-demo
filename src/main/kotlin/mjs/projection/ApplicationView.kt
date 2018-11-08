@@ -16,4 +16,7 @@ class ApplicationView(
 
     @javax.persistence.Transient
     lateinit var documents: List<DocumentView>
+
+    @javax.persistence.Transient
+    var applicant: ApplicantView? = null
 }

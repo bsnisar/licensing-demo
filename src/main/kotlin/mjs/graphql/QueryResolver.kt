@@ -2,6 +2,7 @@ package mjs.graphql
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver
 import mjs.projection.ApplicationView
+import mjs.projection.IApplicantRepository
 import mjs.projection.IApplicationRepository
 import mjs.projection.IDocumentRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,16 +12,17 @@ import java.util.UUID
 
 @Component
 class QueryResolver(@Autowired val applicationRepository: IApplicationRepository,
-                    @Autowired val documentRepository: IDocumentRepository) : GraphQLQueryResolver {
+                    @Autowired val documentRepository: IDocumentRepository,
+                    @Autowired val applicantRepository: IApplicantRepository) : GraphQLQueryResolver {
 
-    fun getApplicationById(id: String): Optional<ApplicationView> {
+    fun getApplicationById(id: String): ApplicationView? {
         val applicationId = UUID.fromString(id)
-        val application = applicationRepository.findById(applicationId)
-        if (application.isPresent) {
-            val documents = documentRepository.findByApplicationId(applicationId)
-            application.get().documents = documents
-            return application
-        }
-        return Optional.empty()
+        val application = nullOpt(applicationRepository.findById(applicationId)) ?: return null
+        val documents = documentRepository.findByApplicationId(applicationId)
+        application.documents = documents
+        application.applicant = applicantRepository.findByApplicationId(applicationId)
+        return application
     }
+
+    private fun <T> nullOpt(opt: Optional<T>): T? = if (opt.isPresent) opt.get() else null
 }

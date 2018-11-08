@@ -10,7 +10,15 @@ type Application {
     id: ID!
     type: String!
     createTimestamp: String!
+    applicant: Applicant
     documents: [Document]
+}
+
+type Applicant {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
 }
 
 extend type Query {
