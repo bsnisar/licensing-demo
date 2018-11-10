@@ -1,5 +1,3 @@
-type Query {}
-
 type Document {
     id: ID!
     type: String!
@@ -21,7 +19,13 @@ type Applicant {
     email: String!
 }
 
-extend type Query {
+type Query {
     getApplicationById(id: ID!) : Application
     applications: [Application]!
+}
+
+type Mutation {
+    createApplication(id: ID!, type: String!, createTimestamp: String!): Application!
+    setApplicant(applicationId: ID!, id: ID!, firstName: String!, lastName: String!, email: String!): Application!
+    addDocument(applicationId: ID!, id: ID!, type: String!, contents: String!): Application
 }
