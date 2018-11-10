@@ -78,7 +78,7 @@ class ApplicationController(
     }
 
     @GetMapping("{applicationId}/documents")
-    fun getDocumentsForApplication(@PathVariable applicationId: UUID ): CompletableFuture<List<CreateApplicationResponse>> {
+    fun getDocumentsForApplication(@PathVariable applicationId: UUID): CompletableFuture<List<CreateApplicationResponse>> {
         return queryGateway
             .query(AllApplicationsQuery(UUID.randomUUID()), AllApplicationsResponse::class.java)
             .thenApply { it.applications.map { application -> modelMapper.map(application, CreateApplicationResponse::class.java) } }

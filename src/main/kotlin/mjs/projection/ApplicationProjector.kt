@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class ApplicationProjector(@Autowired val applicationRepository: IApplicationRepository,
-                           @Autowired val documentRepository: IDocumentRepository,
-                           @Autowired val applicantRepository: IApplicantRepository) {
+class ApplicationProjector(
+    @Autowired val applicationRepository: IApplicationRepository,
+    @Autowired val documentRepository: IDocumentRepository,
+    @Autowired val applicantRepository: IApplicantRepository
+) {
     companion object {
         val log = Logging.loggerFor<ApplicationProjector>()
     }

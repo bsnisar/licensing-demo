@@ -12,7 +12,8 @@ class ApplicationView(
     @Id
     val id: UUID,
     val type: String,
-    val createTimestamp: Instant) {
+    val createTimestamp: Instant
+) {
 
     @javax.persistence.Transient
     lateinit var documents: List<DocumentView>
