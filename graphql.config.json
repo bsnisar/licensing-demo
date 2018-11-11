@@ -1,0 +1,16 @@
+{
+  "schema": {
+    "file": "src/main/resources/graphql/application.graphqls"
+  },
+  "endpoints": [
+    {
+      "name": "Default",
+      "url": "http://localhost:8000/graphql",
+      "options": {
+        "headers": {
+          "user-agent": "JS GraphQL"
+        }
+      }
+    }
+  ]
+}
