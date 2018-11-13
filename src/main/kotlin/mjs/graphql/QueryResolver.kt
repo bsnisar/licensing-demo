@@ -32,8 +32,8 @@ class QueryResolver(
             .map { loadApplicant(it) }
     }
 
-    fun createApplication(applicationId: UUID, type: String, createTimestamp: String): ApplicationView {
-        return applicationRepository.save(ApplicationView(applicationId, type, Instant.parse(createTimestamp)))
+    fun createApplication(applicationId: UUID, type: String, createTimestamp: Instant): ApplicationView {
+        return applicationRepository.save(ApplicationView(applicationId, type, createTimestamp))
     }
 
     fun addDocument(applicationId: UUID, id: UUID, type: String, contents: String): ApplicationView? {

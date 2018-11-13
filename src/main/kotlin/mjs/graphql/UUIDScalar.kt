@@ -6,40 +6,35 @@ import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
 import graphql.schema.GraphQLScalarType
-import java.lang.IllegalArgumentException
+import org.springframework.stereotype.Component
 import java.util.UUID
 
-object UUIDScalar {
-
-    val uuid = GraphQLScalarType("uuid", "A custom scalar for UUID", object : Coercing<UUID, String> {
+@Component
+class UUIDScalar : GraphQLScalarType(
+    "UUID",
+    "GraphQL scalar for UUID",
+    object : Coercing<UUID, String> {
 
         override fun serialize(dataFetcherResult: Any): String {
-            try {
-                val possibleUUID = dataFetcherResult.toString()
-                UUID.fromString(possibleUUID)
-                return possibleUUID
-            } catch (ex: IllegalArgumentException) {
-                throw CoercingSerializeException(ex.message)
+            if (dataFetcherResult is UUID) {
+                return dataFetcherResult.toString()
             }
+            throw CoercingSerializeException("Invalid value '$dataFetcherResult' for UUID")
         }
 
         override fun parseValue(input: Any): UUID {
             try {
                 return UUID.fromString(input.toString())
             } catch (ex: IllegalArgumentException) {
-                throw CoercingParseValueException("Unable to parse $input as a UUID")
+                throw CoercingParseValueException("Invalid value '$input' for UUID")
             }
         }
 
         override fun parseLiteral(input: Any): UUID {
             if (input is StringValue) {
-                try {
-                    return UUID.fromString(input.value)
-                } catch (ex: IllegalArgumentException) {
-                    throw CoercingParseLiteralException("Value $input is not a UUID")
-                }
+                return UUID.fromString(input.value)
             }
-            throw CoercingParseLiteralException("Value $input is not a UUID")
+            throw CoercingParseLiteralException("Invalid value '$input' for UUID")
         }
-    })
-}
+    }
+)
