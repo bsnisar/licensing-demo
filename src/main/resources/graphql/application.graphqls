@@ -1,14 +1,13 @@
 type Document {
-    id: UUID!
+    id: ID!
     type: String!
     contents: String!
 }
 
 scalar Instant
-scalar UUID
 
 type Application {
-    id: UUID!
+    id: ID!
     type: String!
     createTimestamp: Instant!
     applicant: Applicant
@@ -16,19 +15,19 @@ type Application {
 }
 
 type Applicant {
-    id: UUID!
+    id: ID!
     firstName: String!
     lastName: String!
     email: String!
 }
 
 type Query {
-    getApplicationById(id: UUID!) : Application
+    getApplicationById(id: ID!) : Application
     applications: [Application!]!
 }
 
 type Mutation {
-    createApplication(id: UUID!, type: String!, createTimestamp: Instant!): Application!
-    setApplicant(applicationId: UUID!, id: UUID!, firstName: String!, lastName: String!, email: String!): Application!
-    addDocument(applicationId: UUID!, id: UUID!, type: String!, contents: String!): Application
+    createApplication(id: ID!, type: String!, createTimestamp: Instant!): Application!
+    setApplicant(applicationId: ID!, id: ID!, firstName: String!, lastName: String!, email: String!): Application!
+    addDocument(applicationId: ID!, id: ID!, type: String!, contents: String!): Application
 }

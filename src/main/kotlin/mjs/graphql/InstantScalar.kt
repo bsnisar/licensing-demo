@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 import java.time.Instant
 
 @Component
-class GraphQLScalarInstant : GraphQLScalarType(
+class InstantScalar : GraphQLScalarType(
     "Instant",
     "GraphQL scalar for instant",
     object : Coercing<Instant, String> {
