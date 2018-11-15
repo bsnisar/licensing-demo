@@ -1,16 +1,12 @@
 package mjs.graphql
 
-import com.coxautodev.graphql.tools.GraphQLMutationResolver
 import com.coxautodev.graphql.tools.GraphQLQueryResolver
-import mjs.projection.ApplicantView
 import mjs.projection.ApplicationView
-import mjs.projection.DocumentView
 import mjs.projection.IApplicantRepository
 import mjs.projection.IApplicationRepository
 import mjs.projection.IDocumentRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.time.Instant
 import java.util.Optional
 import java.util.UUID
 
@@ -19,7 +15,7 @@ class QueryResolver(
     @Autowired val applicationRepository: IApplicationRepository,
     @Autowired val documentRepository: IDocumentRepository,
     @Autowired val applicantRepository: IApplicantRepository
-) : GraphQLQueryResolver, GraphQLMutationResolver {
+) : GraphQLQueryResolver {
 
     fun getApplicationById(applicationId: UUID): ApplicationView? {
         val application = nullOpt(applicationRepository.findById(applicationId)) ?: return null
@@ -30,22 +26,6 @@ class QueryResolver(
         return applicationRepository.findAll()
             .map { loadDocuments(it) }
             .map { loadApplicant(it) }
-    }
-
-    fun createApplication(applicationId: UUID, type: String, createTimestamp: Instant): ApplicationView {
-        return applicationRepository.save(ApplicationView(applicationId, type, createTimestamp))
-    }
-
-    fun addDocument(applicationId: UUID, id: UUID, type: String, contents: String): ApplicationView? {
-        val application = nullOpt(applicationRepository.findById(applicationId)) ?: return null
-        application.documents = listOf(documentRepository.save(DocumentView(id, applicationId, type, contents)))
-        return application
-    }
-
-    fun setApplicant(applicationId: UUID, id: UUID, firstName: String, lastName: String, email: String): ApplicationView? {
-        val application = nullOpt(applicationRepository.findById(applicationId)) ?: return null
-        application.applicant = applicantRepository.save(ApplicantView(id, applicationId, firstName, lastName, email))
-        return application
     }
 
     fun loadDocuments(application: ApplicationView): ApplicationView {
