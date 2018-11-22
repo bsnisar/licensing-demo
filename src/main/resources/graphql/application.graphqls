@@ -8,6 +8,7 @@ scalar Instant
 
 type Application {
     id: ID!
+    number: Int!
     type: String!
     createTimestamp: Instant!
     applicant: Applicant

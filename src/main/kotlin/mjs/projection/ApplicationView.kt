@@ -11,6 +11,7 @@ import javax.persistence.Table
 class ApplicationView(
     @Id
     val id: UUID,
+    val number: Int,
     val type: String,
     val createTimestamp: Instant
 ) {

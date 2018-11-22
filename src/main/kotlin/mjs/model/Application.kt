@@ -25,6 +25,7 @@ class Application() : Serializable {
 
     @AggregateIdentifier
     lateinit var id: UUID
+    var number: Int = 0
     lateinit var type: String
     lateinit var createTimestamp: Instant
 
@@ -39,7 +40,7 @@ class Application() : Serializable {
     @CommandHandler
     constructor(command: CreateApplicationCommand) : this() {
         log.info("Handling {}", command)
-        AggregateLifecycle.apply(ApplicationCreatedEvent(command.id, command.type, command.createTimestamp))
+        AggregateLifecycle.apply(ApplicationCreatedEvent(command.id, command.number, command.type, command.createTimestamp))
     }
 
     @CommandHandler
@@ -58,6 +59,7 @@ class Application() : Serializable {
     fun on(event: ApplicationCreatedEvent) {
         log.info("Handling {}", event)
         id = event.id
+        number = event.number
         type = event.type
         createTimestamp = event.createTimestamp
     }

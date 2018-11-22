@@ -23,6 +23,7 @@ class ApplicationProjector(
         log.info("Projecting {}", event)
         applicationRepository.save(ApplicationView(
             event.id,
+            event.number,
             event.type,
             event.createTimestamp
         ))

@@ -5,6 +5,7 @@ import mjs.commands.AddDocumentCommand
 import mjs.commands.CreateApplicationCommand
 import mjs.commands.SetApplicantCommand
 import mjs.projection.ApplicationView
+import mjs.shared.NumberGenerator.nextNumber
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -18,8 +19,9 @@ class MutationResolver(
 ) : GraphQLMutationResolver {
 
     fun createApplication(applicationId: UUID, type: String, createTimestamp: Instant): ApplicationView {
-        commandGateway.send<Void>(CreateApplicationCommand(applicationId, type, createTimestamp))
-        return ApplicationView(applicationId, type, createTimestamp)
+        val number = nextNumber()
+        commandGateway.send<Void>(CreateApplicationCommand(applicationId, number, type, createTimestamp))
+        return ApplicationView(applicationId, number, type, createTimestamp)
     }
 
     fun addDocument(applicationId: UUID, id: UUID, type: String, contents: String): ApplicationView? {
