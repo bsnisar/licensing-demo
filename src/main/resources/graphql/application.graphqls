@@ -24,6 +24,7 @@ type Applicant {
 
 type Query {
     getApplicationById(id: ID!) : Application
+    getApplicationByNumber(number: Int!): Application
     applications: [Application!]!
 }
 

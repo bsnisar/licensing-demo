@@ -5,6 +5,7 @@ import mjs.projection.ApplicationView
 import mjs.projection.IApplicantRepository
 import mjs.projection.IApplicationRepository
 import mjs.projection.IDocumentRepository
+import mjs.shared.DammChecksum
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.Optional
@@ -22,10 +23,20 @@ class QueryResolver(
         return loadApplicant(loadDocuments(application))
     }
 
+    fun getApplicationByNumber(number: Int): ApplicationView? {
+        if (!DammChecksum.isValid(number)) {
+            throw IllegalArgumentException("Invalid application number $number")
+        }
+        val application = nullOpt(applicationRepository.findByNumber(number)) ?: return null
+        return application
+            .also { loadApplicant(it) }
+            .also { loadDocuments(it) }
+    }
+
     fun applications(): List<ApplicationView> {
         return applicationRepository.findAll()
-            .map { loadDocuments(it) }
             .map { loadApplicant(it) }
+            .map { loadDocuments(it) }
     }
 
     fun loadDocuments(application: ApplicationView): ApplicationView {
