@@ -21,7 +21,7 @@ internal class NumberGeneratorTest {
         @RepeatedTest(100)
         fun `should return number with valid check digit`() {
             val number = nextNumber()
-            assert(DammChecksum.validate(number)).isTrue()
+            assert(DammChecksum.isValid(number)).isTrue()
         }
     }
 

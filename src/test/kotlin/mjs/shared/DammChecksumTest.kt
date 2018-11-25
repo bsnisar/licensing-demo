@@ -21,12 +21,26 @@ internal class DammChecksumTest {
 
         @Test
         fun `should validate reference numbers`() {
-            refNumbers.forEach { assert(DammChecksum.validate(it)).isTrue() }
+            refNumbers.forEach { assert(DammChecksum.isValid(it)).isTrue() }
         }
 
         @Test
         fun `should calculate check digits for reference numbers`() {
-            refChecks.forEach { assert(DammChecksum.calculateChecksumDigit(it.first)).isEqualTo(it.second) }
+            refChecks.forEach { assert(DammChecksum.checkDigit(it.first)).isEqualTo(it.second) }
+            refChecks.forEach { assert(DammChecksum.checkSum(it.first)).isEqualTo(it.first * 10 + it.second) }
+        }
+
+        @Test
+        fun `should ignore leading zeros in string numbers`() {
+            assert(DammChecksum.checkDigit("6600")).isEqualTo(9)
+            assert(DammChecksum.checkDigit("06600")).isEqualTo(9)
+            assert(DammChecksum.checkDigit("006600")).isEqualTo(9)
+            assert(DammChecksum.isValid("66009")).isTrue()
+            assert(DammChecksum.isValid("066009")).isTrue()
+            assert(DammChecksum.isValid("0066009")).isTrue()
+            assert(DammChecksum.checkSum("6600")).isEqualTo("66009")
+            assert(DammChecksum.checkSum("06600")).isEqualTo("066009")
+            assert(DammChecksum.checkSum("006600")).isEqualTo("0066009")
         }
     }
 }

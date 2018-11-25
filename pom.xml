@@ -22,9 +22,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <kotlin.version>1.3.0</kotlin.version>
+        <kotlin.version>1.3.10</kotlin.version>
         <swagger.version>2.9.2</swagger.version>
-        <axon.version>3.4</axon.version>
+        <axon.version>3.4.1</axon.version>
     </properties>
 
     <dependencies>
