@@ -1,6 +1,6 @@
 package mjs.shared
 
-object DammChecksum {
+class DammChecksum : Checksum {
 
     /**
      * The quasigroup table from https://en.wikipedia.org/wiki/Damm_algorithm
@@ -22,29 +22,29 @@ object DammChecksum {
         if (num.isEmpty()) idx
         else calcCheckDigit(num.drop(1), table[idx][num.first() - '0'])
 
-    fun checkDigit(numberString: String): Int {
+    override fun checkDigit(numberString: String): Int {
         return calcCheckDigit(numberString, 0)
     }
 
-    fun checkDigit(number: Int): Int {
+    override fun checkDigit(number: Int): Int {
         return checkDigit(number.toString())
     }
 
-    fun checkSum(number: String): String {
-        val checkSumDigit = checkDigit(number)
-        return number + checkSumDigit.toString()
+    override fun checkSum(numberString: String): String {
+        val checkSumDigit = checkDigit(numberString)
+        return numberString + checkSumDigit.toString()
     }
 
-    fun checkSum(number: Int): Int {
+    override fun checkSum(number: Int): Int {
         val checkSumDigit = checkDigit(number)
         return number * 10 + checkSumDigit
     }
 
-    fun isValid(number: String): Boolean {
-        return checkDigit(number) == 0
+    override fun isValid(numberString: String): Boolean {
+        return checkDigit(numberString) == 0
     }
 
-    fun isValid(number: Int): Boolean {
+    override fun isValid(number: Int): Boolean {
         return checkDigit(number) == 0
     }
 }

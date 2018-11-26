@@ -5,7 +5,8 @@ import mjs.projection.ApplicationView
 import mjs.projection.IApplicantRepository
 import mjs.projection.IApplicationRepository
 import mjs.projection.IDocumentRepository
-import mjs.shared.DammChecksum
+import mjs.shared.Checksum
+import mjs.shared.Logging.Companion.loggerFor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.Optional
@@ -15,8 +16,13 @@ import java.util.UUID
 class QueryResolver(
     @Autowired val applicationRepository: IApplicationRepository,
     @Autowired val documentRepository: IDocumentRepository,
-    @Autowired val applicantRepository: IApplicantRepository
+    @Autowired val applicantRepository: IApplicantRepository,
+    @Autowired val checksum: Checksum
 ) : GraphQLQueryResolver {
+
+    companion object {
+        val logger = loggerFor<QueryResolver>()
+    }
 
     fun getApplicationById(applicationId: UUID): ApplicationView? {
         val application = nullOpt(applicationRepository.findById(applicationId)) ?: return null
@@ -24,8 +30,9 @@ class QueryResolver(
     }
 
     fun getApplicationByNumber(number: Int): ApplicationView? {
-        if (!DammChecksum.isValid(number)) {
-            throw IllegalArgumentException("Invalid application number $number")
+        if (!checksum.isValid(number)) {
+            logger.info("Request received for invalid application number {}", number)
+            return null
         }
         val application = nullOpt(applicationRepository.findByNumber(number)) ?: return null
         return application
