@@ -1,5 +1,8 @@
 package mjs.shared
 
+import org.springframework.stereotype.Component
+
+@Component
 class DammChecksum : Checksum {
 
     /**
