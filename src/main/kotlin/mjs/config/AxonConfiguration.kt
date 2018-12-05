@@ -12,20 +12,20 @@ import org.springframework.context.annotation.Primary
 @Configuration
 class AxonConfiguration {
 
-    private fun jacksonSerializer(objectMapper: ObjectMapper): Serializer {
+    private fun kotlinJacksonSerializer(objectMapper: ObjectMapper): Serializer {
         objectMapper.registerKotlinModule()
-        return JacksonSerializer(objectMapper)
+        return JacksonSerializer.builder().objectMapper(objectMapper).build()
     }
 
     @Primary
     @Bean
-    fun serializer(objectMapper: ObjectMapper) = jacksonSerializer(objectMapper)
+    fun serializer(objectMapper: ObjectMapper) = kotlinJacksonSerializer(objectMapper)
 
     @Qualifier("eventSerializer")
     @Bean
-    fun eventSerializer(objectMapper: ObjectMapper) = jacksonSerializer(objectMapper)
+    fun eventSerializer(objectMapper: ObjectMapper) = kotlinJacksonSerializer(objectMapper)
 
     @Qualifier("messageSerializer")
     @Bean
-    fun messageSerializer(objectMapper: ObjectMapper) = jacksonSerializer(objectMapper)
+    fun messageSerializer(objectMapper: ObjectMapper) = kotlinJacksonSerializer(objectMapper)
 }
