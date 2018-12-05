@@ -1,0 +1,230 @@
+{
+  "_type": "export",
+  "__export_format": 3,
+  "__export_date": "2018-12-05T09:12:12.697Z",
+  "__export_source": "insomnia.desktop.app:v6.2.3",
+  "resources": [
+    {
+      "_id": "wrk_a9eb3ca7c64746679cb2067d639fb1e2",
+      "created": 1543998818950,
+      "description": "",
+      "modified": 1543998818950,
+      "name": "Licensing Demo",
+      "parentId": null,
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_b986c9ba36434d90a8fd40623f295558",
+      "color": null,
+      "created": 1543998818965,
+      "data": {},
+      "isPrivate": false,
+      "metaSortKey": 1543998818965,
+      "modified": 1543998818965,
+      "name": "New Environment",
+      "parentId": "wrk_a9eb3ca7c64746679cb2067d639fb1e2",
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_f5d595f86d97404cab25ea4783d66e19",
+      "cookies": [],
+      "created": 1543998818972,
+      "modified": 1543998818972,
+      "name": "Default Jar",
+      "parentId": "wrk_a9eb3ca7c64746679cb2067d639fb1e2",
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "req_1d3579b8cc9b48bc9cae0c4fb582d8bd",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"query AllApplications {\\n  applications {\\n    number\\n    type\\n    createTimestamp\\n    applicant {\\n      firstName\\n      lastName\\n      email\\n    }\\n    documents {\\n      type\\n      contents\\n    }\\n  }\\n}\\n\",\"operationName\":\"AllApplications\"}"
+      },
+      "created": 1543998833440,
+      "description": "",
+      "headers": [
+        {
+          "id": "pair_c05d54ada8474c089b9e3f4daf107315",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -1540834052309.125,
+      "method": "POST",
+      "modified": 1544000188717,
+      "name": "All Applications",
+      "parameters": [],
+      "parentId": "wrk_a9eb3ca7c64746679cb2067d639fb1e2",
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingMaxTimelineDataSize": 1000,
+      "settingRebuildPath": true,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "url": "http://localhost:8000/graphql",
+      "_type": "request"
+    },
+    {
+      "_id": "req_77ca3f2e01e0481fbbea6c27b7011014",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"query getApplication($number: Int!, $withDocuments: Boolean!) {\\n  getApplicationByNumber(number: $number) {\\n    number\\n    type\\n    createTimestamp\\n    applicant {\\n      firstName\\n      lastName\\n      email\\n    }\\n    documents @include(if: $withDocuments) {\\n      type\\n      contents\\n    }\\n  }\\n}\\n\",\"variables\":{\"number\":\"{% response 'body', 'req_9dcf7f1eeedc4182b151c39995fd7c17', '$.data.createApplication.number' %}\",\"withDocuments\":true},\"operationName\":\"getApplication\"}"
+      },
+      "created": 1543998833445,
+      "description": "",
+      "headers": [
+        {
+          "id": "pair_c05d54ada8474c089b9e3f4daf107315",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -1540834052109.125,
+      "method": "POST",
+      "modified": 1544000080275,
+      "name": "getApplicationByNumber with docs",
+      "parameters": [],
+      "parentId": "wrk_a9eb3ca7c64746679cb2067d639fb1e2",
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingMaxTimelineDataSize": 1000,
+      "settingRebuildPath": true,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "url": "http://localhost:8000/graphql",
+      "_type": "request"
+    },
+    {
+      "_id": "req_9dcf7f1eeedc4182b151c39995fd7c17",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"mutation CreateApplication($id: ID!, $type: String!, $createTimestamp: Instant!) {\\n  createApplication(id: $id, type: $type, createTimestamp: $createTimestamp) {\\n    id\\n    number\\n  }\\n}\\n\",\"variables\":{\"id\":\"{% uuid 'v4' %}\",\"type\":\"Sample\",\"createTimestamp\":\"{% now 'iso-8601', '' %}\"},\"operationName\":\"CreateApplication\"}"
+      },
+      "created": 1543998833456,
+      "description": "",
+      "headers": [
+        {
+          "id": "pair_c05d54ada8474c089b9e3f4daf107315",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -1540834052259.125,
+      "method": "POST",
+      "modified": 1544000050635,
+      "name": "Create application",
+      "parameters": [],
+      "parentId": "wrk_a9eb3ca7c64746679cb2067d639fb1e2",
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingMaxTimelineDataSize": 1000,
+      "settingRebuildPath": true,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "url": "http://localhost:8000/graphql",
+      "_type": "request"
+    },
+    {
+      "_id": "req_c658c35c9fda4c02947042713b77c6cd",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"mutation AddDocument($applicationId: ID! $id: ID!, $type: String!, $contents: String!) {\\n  addDocument(applicationId: $applicationId, id: $id, type: $type, contents: $contents) {\\n    number\\n    documents {\\n      type\\n      contents\\n    }\\n  }\\n}\\n\",\"variables\":{\"applicationId\":\"{% response 'body', 'req_9dcf7f1eeedc4182b151c39995fd7c17', '$.data.createApplication.id' %}\",\"id\":\"{% uuid 'v4' %}\",\"type\":\"Special document {% now 'custom', 'YYYYMMDD-HHmmssSSS' %}\",\"contents\":\"Please read me\"},\"operationName\":\"AddDocument\"}"
+      },
+      "created": 1543998833461,
+      "description": "",
+      "headers": [
+        {
+          "id": "pair_c05d54ada8474c089b9e3f4daf107315",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -1540834052159.125,
+      "method": "POST",
+      "modified": 1544000084084,
+      "name": "Add Document",
+      "parameters": [],
+      "parentId": "wrk_a9eb3ca7c64746679cb2067d639fb1e2",
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingMaxTimelineDataSize": 1000,
+      "settingRebuildPath": true,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "url": "http://localhost:8000/graphql",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0319f5adff6f4f859bc6566f92e2581c",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"mutation SetApplicant($applicationId: ID!, $id: ID!, $firstName: String!, $lastName: String!, $email: String!) {\\n  setApplicant(applicationId: $applicationId, id: $id, firstName: $firstName, lastName: $lastName, email: $email) {\\n    number\\n    applicant {\\n      firstName\\n      lastName\\n      email\\n    }\\n  }\\n}\\n\",\"variables\":{\"applicationId\":\"{% response 'body', 'req_9dcf7f1eeedc4182b151c39995fd7c17', '$.data.createApplication.id' %}\",\"id\":\"{% uuid 'v4' %}\",\"firstName\":\"Samuel\",\"lastName\":\"Clemens\",\"email\":\"mark@twain.com\"},\"operationName\":\"SetApplicant\"}"
+      },
+      "created": 1543998833469,
+      "description": "",
+      "headers": [
+        {
+          "id": "pair_c05d54ada8474c089b9e3f4daf107315",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -1540834052209.125,
+      "method": "POST",
+      "modified": 1544000058677,
+      "name": "Set applicant",
+      "parameters": [],
+      "parentId": "wrk_a9eb3ca7c64746679cb2067d639fb1e2",
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingMaxTimelineDataSize": 1000,
+      "settingRebuildPath": true,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "url": "http://localhost:8000/graphql",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5975a1d289ad4f589b41cb9943883bdb",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"query getApplication($id: ID!, $withDocuments: Boolean!) {\\n  getApplicationById(id: $id) {\\n    number\\n    type\\n    createTimestamp\\n    applicant {\\n      firstName\\n      lastName\\n      email\\n    }\\n    documents @include(if: $withDocuments) {\\n      type\\n      contents\\n    }\\n  }\\n}\\n\",\"variables\":{\"id\":\"{% response 'body', 'req_9dcf7f1eeedc4182b151c39995fd7c17', '$.data.createApplication.id' %}\",\"withDocuments\":true},\"operationName\":\"getApplication\"}"
+      },
+      "created": 1543998833480,
+      "description": "",
+      "headers": [
+        {
+          "id": "pair_c05d54ada8474c089b9e3f4daf107315",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -1540834052059.125,
+      "method": "POST",
+      "modified": 1544000093562,
+      "name": "getApplicationById with docs",
+      "parameters": [],
+      "parentId": "wrk_a9eb3ca7c64746679cb2067d639fb1e2",
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingMaxTimelineDataSize": 1000,
+      "settingRebuildPath": true,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "url": "http://localhost:8000/graphql",
+      "_type": "request"
+    }
+  ]
+}
