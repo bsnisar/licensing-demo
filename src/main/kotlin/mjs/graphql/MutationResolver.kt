@@ -34,5 +34,4 @@ class MutationResolver(
         commandGateway.send<Void>(SetApplicantCommand(applicationId, id, firstName, lastName, email))
         return queryResolver.getApplicationById(applicationId)
     }
-
 }

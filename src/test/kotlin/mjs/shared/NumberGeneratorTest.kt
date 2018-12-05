@@ -26,5 +26,4 @@ internal class NumberGeneratorTest {
             assert(checksum.isValid(number)).isTrue()
         }
     }
-
 }

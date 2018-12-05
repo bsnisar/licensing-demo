@@ -1,6 +1,6 @@
 package mjs.commands
 
-import org.axonframework.commandhandling.TargetAggregateIdentifier
+import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.util.UUID
 
 data class AddDocumentCommand(

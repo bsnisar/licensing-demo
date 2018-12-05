@@ -8,9 +8,9 @@ import mjs.events.ApplicationCreatedEvent
 import mjs.events.DocumentAddedEvent
 import mjs.shared.Logging
 import org.axonframework.commandhandling.CommandHandler
-import org.axonframework.commandhandling.model.AggregateIdentifier
-import org.axonframework.commandhandling.model.AggregateLifecycle
 import org.axonframework.eventsourcing.EventSourcingHandler
+import org.axonframework.modelling.command.AggregateIdentifier
+import org.axonframework.modelling.command.AggregateLifecycle
 import org.axonframework.spring.stereotype.Aggregate
 import java.io.Serializable
 import java.time.Instant
