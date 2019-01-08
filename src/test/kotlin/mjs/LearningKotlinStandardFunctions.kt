@@ -67,11 +67,11 @@ class LearningKotlinStandardFunctions {
             val item = Item("Block", 5)
             val result = with(item) {
                 runner.run("with")
-                colour = "magenta"
+                colour = "puce"
                 size * 5
             }
             assert(result).isEqualTo(25)
-            assert(item.colour).isEqualTo("magenta")
+            assert(item.colour).isEqualTo("puce")
             verify(exactly = 1) { runner.run("with") }
         }
     }
@@ -107,3 +107,4 @@ class LearningKotlinStandardFunctions {
         }
     }
 }
+
